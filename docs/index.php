@@ -37,6 +37,7 @@
       request.then(function(response) {
         // TODO: Change code below to process the `response` object:
         console.log(response.result);
+		populateSheet(response.result);
       }, function(reason) {
         console.error('error: ' + reason.result.error.message);
       });
@@ -84,6 +85,19 @@
       gapi.auth2.getAuthInstance().signOut();
     }
 
+	function populateSheet(result){
+		for	(var row=2; row<result.length; row++) {
+			for (var col=0; col<2; col++) {
+				if (col == 1) {
+					document.getElementById(row+":"+col).value = result.values[row][col];
+				}
+				else {
+					document.getElementById(row+":"+col).value = result.values[row][result[row].length - 1];
+				}
+			}
+		}
+	}
+
     </script>
     <script async defer src="https://apis.google.com/js/api.js"
       onload="this.onload=function(){};handleClientLoad()"
@@ -91,5 +105,18 @@
     </script>
     <button id="signin-button" onclick="handleSignInClick()">Sign in</button>
 	<button id="signout-button" onclick="handleSignOutClick()">Sign out</button>
+	
+	<div style="margin-left:auto; margin-right: auto; width:30%;">
+
+	<?php
+echo "test"
+	for($row = 0; $row < 24; $row++) {
+		echo "<div style='clear:both'>";
+		for($col = 0; $col < 2; $col++) {
+			echo "<input type='text' style='float:left;' name='$row:$col' id='$row:$col'>";
+		}
+		echo "</div>";
+	}
+	?>
   </body>
 </html>
