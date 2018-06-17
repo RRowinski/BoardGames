@@ -1,6 +1,7 @@
 ﻿// Global Variables
 var HEADER_ROW = 2;
 var RATINGS_STARTING_ROW = 3;
+var RATING_COLUMN_COUNT = 3;
 
 
 // Get data from goole sheets
@@ -87,13 +88,14 @@ function createRatingTable(result) {
     var tableData,
         tableHeader,
         tableBody;
-            
-    tableData = '<table width="320" border="1">';
+
+    tableData = '<table class="table table-bordered table-striped" >';
 
     // Table header
     tableHeader = '<thead>'
                     + '<tr>'
                         + '<th>' + result.values[HEADER_ROW][0] + '</th>'
+                        + '<th>' + result.values[HEADER_ROW][1] + '</th>'
                         + '<th>' + result.values[HEADER_ROW][result.values[HEADER_ROW].length - 1] + '</th>'
                     + '</tr>'
                 + '</thead>';
@@ -102,8 +104,11 @@ function createRatingTable(result) {
     tableBody = '<tbody>';
     for (var row = RATINGS_STARTING_ROW; row < result.values.length; row++) {
         tableBody = tableBody + '<tr>';
-        for (var col = 0; col < 2; col++) {
-            if (col == 0) { // Name
+        for (var col = 0; col < RATING_COLUMN_COUNT; col++) {
+            if (col == 0) { // Rank
+                tableBody = tableBody + '<th>' + result.values[row][col] + '</td>';
+            }
+            else if (col == 1) { // Name
                 tableBody = tableBody + '<td>' + result.values[row][col] + '</td>';
             }
             else { // Rating (in the last row element)
