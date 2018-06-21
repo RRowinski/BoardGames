@@ -1,8 +1,7 @@
 ﻿// Global Variables
 var HEADER_ROW = 2;
 var RATINGS_STARTING_ROW = 3;
-var RATING_COLUMN_COUNT = 3;
-
+var RATING_COLUMN_COUNT = 4;
 
 // Get data from goole sheets
 function makeApiCall() {
@@ -94,9 +93,10 @@ function createRatingTable(result) {
     // Table header
     tableHeader = '<thead>'
                     + '<tr>'
-                        + '<th>' + result.values[HEADER_ROW][0] + '</th>'
-                        + '<th>' + result.values[HEADER_ROW][1] + '</th>'
-                        + '<th>' + result.values[HEADER_ROW][result.values[HEADER_ROW].length - 1] + '</th>'
+                        + '<th>' + result.values[HEADER_ROW][0] + '</th>' //Rank
+                        + '<th>' + result.values[HEADER_ROW][1] + '</th>' //Title
+                        + '<th>' + result.values[HEADER_ROW][result.values[HEADER_ROW].length - 2] + '</th>' //Total
+                        + '<th>' + result.values[HEADER_ROW][result.values[HEADER_ROW].length - 1] + '</th>' // Average
                     + '</tr>'
                 + '</thead>';
 
@@ -108,8 +108,11 @@ function createRatingTable(result) {
             if (col == 0) { // Rank
                 tableBody = tableBody + '<th>' + result.values[row][col] + '</td>';
             }
-            else if (col == 1) { // Name
+            else if (col == 1) { // Title
                 tableBody = tableBody + '<td>' + result.values[row][col] + '</td>';
+            }
+            else if (col == 2) { // Total
+                tableBody = tableBody + '<td>' + result.values[row][result.values[row].length - 2] + '</td>';
             }
             else { // Rating (in the last row element)
                 tableBody = tableBody + '<td>' + result.values[row][result.values[row].length - 1];
